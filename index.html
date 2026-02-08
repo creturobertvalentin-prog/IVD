@@ -2,205 +2,217 @@
 <html lang="en">
 <!--https://github.com/Abhay557/Will-you-be-my-Valentine-->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frumusete, will you be my Valentine?</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frumusete, will you be my Valentine?</title>
 
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: white;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-        }
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 24px 12px;
+      gap: 12px;
+    }
 
-        h1 {
-            margin-bottom: 20px;
-        }
+    h1 { margin: 0 0 6px; }
 
-        .button-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 10;
-        }
+    .button-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      margin: 6px 0 0;
+      position: relative;
+      z-index: 10;
+    }
 
-        .button, .button1 {
-            font-size: 16px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .button, .button1 {
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      user-select: none;
+    }
 
-        .button {
-            background-color: lightgreen;
-        }
+    .button { background-color: lightgreen; }
+    .button1 { background-color: #F44336; color: #fff; }
 
-        .button1 {
-            background-color: #F44336;
-        }
+    .button:hover, .button1:hover { transform: scale(1.06); }
 
-        .button:hover, .button1:hover {
-            transform: scale(1.1);
-        }
+    /* Message area under buttons (so it never overlaps the GIF) */
+    .no-message {
+      min-height: 26px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #d10000;
+      margin-top: 6px;
+      z-index: 5;
+    }
 
-        .gif-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 300px;
-            height: auto;
-            position: relative;
-            z-index: 1;
-        }
+    .gif-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: auto;
+      position: relative;
+      z-index: 1;
+      margin-top: 10px;
+    }
 
-        .gif-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            mix-blend-mode: multiply; /* Makes GIF blend with background */
-        }
+    .gif-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      mix-blend-mode: multiply;
+    }
 
-        /* ✅ Updated overlay + modal so it doesn't overlap the GIF/buttons */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1000;
-        }
+    /* Modal stays at top (not over the GIF/buttons) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+    }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            padding: 18px 22px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            color: red;
-            z-index: 1001;
-            max-width: min(520px, 92vw);
-        }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 18px 22px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: red;
+      z-index: 1001;
+      max-width: min(520px, 92vw);
+    }
 
-        .modal button {
-            margin-top: 15px;
-            padding: 10px 15px;
-            background-color: red;
-            color: white;
-            border-radius: 5px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
+    .modal button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: red;
+      color: white;
+      border-radius: 8px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
 
-        .modal button:hover {
-            background-color: darkred;
-        }
+    .modal button:hover { background-color: darkred; }
 
-        /* Optional: keep buttons above normal content (modal is still above everything) */
-        #noButton { z-index: 10; }
-        #yesButton { z-index: 10; position: relative; }
-    </style>
+    /* Important: make z-index work for buttons when we move "No" */
+    #noButton { position: relative; z-index: 20; }
+    #yesButton { position: relative; z-index: 20; }
+  </style>
 </head>
 
 <body>
 
-    <h1>Frumusete, will you be my Valentine?</h1>
+  <h1>Frumusete, will you be my Valentine?</h1>
 
-    <div class="button-container">
-        <button class="button" id="yesButton">Yes</button>
-        <button class="button1" id="noButton">No</button>
-    </div>
+  <div class="button-container">
+    <button class="button" id="yesButton">Yes 💖</button>
+    <button class="button1" id="noButton">No 🙃</button>
+  </div>
 
-    <div class="modal-overlay" id="modalOverlay"></div>
-    <div class="modal" id="modal">
-        <p id="modalText"></p>
-        <button onclick="closeModal()">Close</button>
-    </div>
+  <!-- ✅ Funny "No" messages go here (not on the GIF, not on the button) -->
+  <div class="no-message" id="noMessage"></div>
 
-    <!-- Transparent GIF -->
-    <div class="gif-container">
-        <img src="mylove.gif" alt="Cute GIF">
-    </div>
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="modal" id="modal">
+    <p id="modalText"></p>
+    <button onclick="closeModal()">Close</button>
+  </div>
 
-    <script>
-        let noCount = 0;
+  <div class="gif-container">
+    <img src="mylove.gif" alt="Cute GIF">
+  </div>
 
-        const yesButton = document.getElementById("yesButton");
-        const noButton = document.getElementById("noButton");
-        const modal = document.getElementById("modal");
-        const modalOverlay = document.getElementById("modalOverlay");
-        const modalText = document.getElementById("modalText");
+  <script>
+    let noCount = 0;
 
-        const noTexts = [
-            "Esti sigura?",
-            "Sigura, sigura?",
-            "Daca spui nu, te alerg...",
-            "Te iau in brate si te ridic",
-            "Spune da, da, da!!"
-        ];
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+    const noMessage = document.getElementById("noMessage");
 
-        // ✅ Fixed: first click shows "Esti sigura?" (index 0)
-        noButton.addEventListener("click", () => {
-            // Show the current message first
-            if (noCount < noTexts.length) {
-                noButton.textContent = noTexts[noCount];
-            } else {
-                openModal("IVD");
-                return;
-            }
+    const modal = document.getElementById("modal");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalText = document.getElementById("modalText");
 
-            // Increase Yes button size (controlled)
-            const currentSize = parseFloat(getComputedStyle(yesButton).fontSize);
-            yesButton.style.fontSize = (currentSize + 10) + "px";
+    const noTexts = [
+      "Esti sigura?",
+      "Sigura, sigura?",
+      "Daca spui nu, te alerg...",
+      "Te iau in brate si te ridic!",
+      "Spune da, da, da!!"
+    ];
 
-            // Keep padding as two values
-            const style = getComputedStyle(yesButton);
-            const padY = parseFloat(style.paddingTop);
-            const padX = parseFloat(style.paddingLeft);
-            yesButton.style.padding = (padY + 2) + "px " + (padX + 6) + "px";
+    noButton.addEventListener("click", () => {
+      // ✅ show the correct message starting from the first click
+      if (noCount < noTexts.length) {
+        noMessage.textContent = noTexts[noCount];
+      } else {
+        openModal("Ok ok… ai castigat 🙃 Dar eu tot te iubesc!");
+        return;
+      }
 
-            // Move No button to a random position within the viewport
-            const maxX = window.innerWidth - noButton.offsetWidth;
-            const maxY = window.innerHeight - noButton.offsetHeight;
+      // Increase Yes button size (gently)
+      const currentSize = parseFloat(getComputedStyle(yesButton).fontSize);
+      yesButton.style.fontSize = (currentSize + 8) + "px";
 
-            noButton.style.position = "absolute";
-            noButton.style.left = Math.max(0, Math.random() * maxX) + "px";
-            noButton.style.top = Math.max(0, Math.random() * maxY) + "px";
+      const style = getComputedStyle(yesButton);
+      const padY = parseFloat(style.paddingTop);
+      const padX = parseFloat(style.paddingLeft);
+      yesButton.style.padding = (padY + 2) + "px " + (padX + 6) + "px";
 
-            // Increment AFTER using current index
-            noCount++;
-        });
+      // ✅ Make "No" run away BUT keep it on screen (safe area)
+      const margin = 16;
+      const safeTop = 80; // avoid top area
+      const safeBottom = 80; // avoid bottom edge
 
-        yesButton.addEventListener("click", () => {
-            openModal("My sunshine");
-        });
+      const maxX = window.innerWidth - noButton.offsetWidth - margin;
+      const maxY = window.innerHeight - noButton.offsetHeight - safeBottom;
 
-        function openModal(message) {
-            modalText.textContent = message;
-            modal.style.display = "block";
-            modalOverlay.style.display = "block";
-        }
+      const x = Math.max(margin, Math.random() * Math.max(margin, maxX));
+      const y = Math.max(safeTop, Math.random() * Math.max(safeTop, maxY));
 
-        function closeModal() {
-            modal.style.display = "none";
-            modalOverlay.style.display = "none";
-        }
-    </script>
+      noButton.style.position = "fixed";
+      noButton.style.left = x + "px";
+      noButton.style.top = y + "px";
+
+      noCount++;
+    });
+
+    yesButton.addEventListener("click", () => {
+      openModal("Yaaay! 💘 Te iubesc mult, Frumusete!");
+    });
+
+    function openModal(message) {
+      modalText.textContent = message;
+      modal.style.display = "block";
+      modalOverlay.style.display = "block";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+      modalOverlay.style.display = "none";
+    }
+  </script>
 </body>
 </html>
